@@ -1,0 +1,17 @@
+FROM node:latest
+
+WORKDIR /nandhu
+
+COPY . /nandhu
+
+RUN npm install
+
+RUN npm run build
+
+FROM nginx
+
+COPY --from=0 /nandhu/build /usr/share/nginx/html/
+
+WORKDIR /usr/share/nginx/html/simple-reactjs-app
+RUN mv ../static .
+EXPOSE 80
